@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Maze</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #87CEFA;
+    }
+
+    .title {
+        font-family: "Crimson Text", sans-serif;
+        font-size: 24px;
+      font-weight: bold;
+      margin: 20px 0;
+      position: absolute;
+      top: 10%;
+      left: 250px;
+      color: #000;
+    }
+
+    .winner-lado {
+      width: 600px;
+      height: 600px;
+      background: url('winner rat.png') no-repeat center;
+      background-size: contain;
+      position: absolute;
+      bottom: -15%;
+      left: 25%;
+      cursor: pointer;
+    }
+
+    .winner-lado.pulsing {
+      animation: pulse 1s infinite;
+    }
+
+    .speech-bubble-left {
+      position: absolute;
+      top: 50%;
+      left: 30%;
+      transform: translate(-50%, -50%);
+      color: #000;
+      padding: 10px;
+      width: 150px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 14px;
+    }
+
+    .speech-bubble-right {
+      position: absolute;
+      top: 60%;
+      left: 70%;
+      transform: translate(-50%, -50%);
+      color: #000;
+      padding: 10px;
+      width: 150px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 14px;
+    }
+
+    .arrow {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: auto;
+      background: url('next icon.png') no-repeat center;
+      background-size: contain;
+      cursor: pointer;
+      animation: pulse 3s infinite;
+      display: none; /* Initially hide arrow */
+    }
+
+    @keyframes pulse {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .arrow:hover {
+      transform: scale(1.2);
+      transition: transform 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+    <iframe src="audio.html" style="display: none;" id="audio-iframe"></iframe>
+
+
+  <div class="container">
+    <!-- Title -->
+    <h1 class="title">
+      Lado rose as champion of the Great Cheese Victory!
+    </h1>
+
+    <!-- Mouse Winner with Pulsing Animation -->
+    <div class="winner-lado pulsing">
+      <!-- Crown can be added here if needed -->
+    </div>
+  </div>
+  
+  <!-- Cheese pulsing effect (if needed) -->
+  <div class="cheese pulsing"></div>
+
+  <!-- Speech Bubbles -->
+  <div class="speech-bubble-left">
+    Thanks! Now I get to enjoy this yummy cheese!
+  </div>
+  <div class="speech-bubble-right">
+    Mmm! Yummy! Delicious!
+  </div>
+
+  <img src="next icon.png" alt="Next" class="arrow" onclick="goToNextPage()">
+
+
+  <script>
+    function goToNextPage() {
+      window.location.href = "17.html"; // Replace with your desired next page URL
+    }
+  </script>
+</body>
+</html>

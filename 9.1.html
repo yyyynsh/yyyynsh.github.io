@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quest Scroll</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #87CEEB;
+      font-family: Arial, sans-serif;
+    }
+
+    .scroll {
+      width: 200px;
+      height: auto;
+      cursor: pointer;
+      animation: pulse 1.5s infinite;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    .opened-scroll {
+      width: 0;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      visibility: hidden;
+      overflow: hidden;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+      }
+      50% {
+        transform: translate(-50%, -50%) scale(1.1);
+      }
+    }
+
+    @keyframes unrollHorizontal {
+      0% {
+        width: 0;
+        visibility: visible;
+      }
+      100% {
+        width: 400px; /* Adjust width to match your opened scroll's final width */
+      }
+    }
+
+    .quest-text {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+    
+  </style>
+</head>
+<body>
+
+    <div class="quest-text">Quest 4</div>
+    <!-- Closed Scroll -->
+    <img
+      src="scroll closed.png"
+      alt="Quest Scroll"
+      class="scroll"
+      id="scrollClosed"
+      onclick="navigateToNextPage()"
+    >
+  <script>
+     
+    function navigateToNextPage() {
+      window.location.href = "10.html"; // Replace "nextpage.html" with the actual URL of your next webpage
+    }
+
+  </script>
+</body>
+</html>

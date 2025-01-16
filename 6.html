@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Scroll</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #87CEEB; /* Sky blue background */
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center; /* Center horizontally */
+      align-items: center; /* Center vertically */
+      height: 100vh;
+    }
+
+    .quest-title {
+        position: absolute;
+      top: 20px;
+      left: 20px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .scroll {
+        width: 1410px; /* Adjust width for the horizontal scroll */
+      height: 600px; /* Adjust height for the horizontal scroll */
+      background: url('scroll opened.png') no-repeat center;
+      background-size: contain; /* Ensure the scroll image fits without being cut off */
+      transform: rotate(90deg); /* Rotate the scroll horizontally */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px; /* Add padding for proper spacing */
+      box-sizing: border-box; /* Include padding in the scroll's dimensions */
+      overflow: hidden; /* Prevent overflow of text outside the scroll */
+      position: relative;
+    }
+
+    .text {
+      width: 30%; /* Ensure the text fits within the scroll */
+      max-height: 100%; /* Ensure it doesn't overflow vertically */
+      text-align: center;
+      bottom: 100;
+      left: 200px;
+      transform: rotate(-90deg); /* Rotate the text back to normal orientation */
+      font-family: "Crimson Text", sans-serif;
+      font-size: 18px; /* Adjust font size to fit */
+      color: #545454;
+      line-height: 1.5;
+      overflow: hidden; /* Prevent overflow of text */
+      display: flex;
+      flex-wrap: wrap; /* Allow text wrapping */
+      justify-content: center;
+      align-items: center;
+      opacity: 1; /* Initially visible */
+      transition: opacity 1s ease-in-out; 
+    }
+
+    @keyframes pulse {
+  0% {
+    transform: scale(1) rotate(90deg); /* Normal state with rotation */
+  }
+  50% {
+    transform: scale(1.05) rotate(90deg); /* Slightly enlarge while keeping rotation */
+  }
+  100% {
+    transform: scale(1) rotate(90deg); /* Return to normal size */
+  }
+}
+    
+
+    h1 {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+   /* Fade-in animation for "Quest 2" */
+   @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .arrow {
+      position: absolute;
+      bottom: 20px; /* Adjust distance from the bottom */
+      right: 20px; /* Adjust distance from the right */
+      width: 60px; /* Adjust size */
+      height: 40px;
+      background: url('next icon.png') no-repeat center;
+      background-size: contain;
+      height: auto; /* Maintain aspect ratio */
+      cursor: pointer;
+      animation: pulse 3s infinite; /* Bounce animation */
+    }
+    
+    @keyframes pulse {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .arrow:hover {
+      transform: scale(1.2); /* Scale up slightly when hovered */
+      transition: transform 0.3s ease;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="quest-title fade-in">Quest 2</div>
+  <div class="scroll">
+    <div class="text">
+      <p id="animated-text"></p>
+    </div>
+  </div>
+  <img src="next icon.png" alt="Next" class="arrow" onclick="goToNextPage()">
+
+  <script>
+    window.onload = () => {
+      const textContent1 = [
+        "What can GenAI be used for?",
+        "1. Image Generation",
+        "2. Text Generation",
+        "3. Art & Music Cooperation"
+      ];
+
+      const textContent2 = [
+        "Examples of some GenAI Platforms",
+        "- ChatGPT (Text)",
+        "- Dall-E (Image)",
+        "DeepComposer (Music)"
+      ];
+
+      const textContainer = document.getElementById("animated-text");
+
+      let totalDelay = 0; // Track cumulative delay for words
+      const wordDelay = 300; // Delay between words (ms)
+
+      // Function to animate text
+      const animateText = (textContent, callback) => {
+        textContent.forEach((line) => {
+          const words = line.split(" ");
+          words.forEach((word, index) => {
+            setTimeout(() => {
+              textContainer.innerHTML += word + " "; // Append word by word
+            }, totalDelay + index * wordDelay);
+          });
+
+          totalDelay += words.length * wordDelay + 1000; // Add extra delay after each line
+        });
+
+        // When the first set of text has finished animating, fade it out and then run callback for the second set
+        setTimeout(() => {
+          textContainer.style.opacity = 0; // Fade out the first set
+          setTimeout(() => {
+            textContainer.innerHTML = ""; // Clear the content after fading out
+            textContainer.style.opacity = 1; // Make the container visible again
+            callback(); // Run the second text animation
+          }, 1000); // Wait for fade-out to complete before changing text
+        }, totalDelay); // Trigger fade-out after the first content has fully appeared
+      };
+
+      // Animate the first set of text and then the second one
+      animateText(textContent1, () => {
+        totalDelay = 0; // Reset totalDelay for the second set of text
+        animateText(textContent2, () => {}); // You can add further actions here
+      });
+    };
+
+    function goToNextPage() {
+      window.location.href = "7.html"; // Replace with your desired next page URL
+    }
+  </script>
+</body>
+</html>

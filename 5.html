@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Interactive Maze</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #87CEFA;
+    }
+
+    .maze {
+      position: relative;
+      width: 540px;
+      height: 540px;
+      background: url('maze top view.png') no-repeat center;
+      background-size: cover;
+    }
+
+    .scroll-2 {
+      width: 40px;
+      height: 40px;
+      background: url('quest 2.png') no-repeat center;
+      background-size: contain;
+      position: absolute;
+      cursor: pointer;
+    }
+
+    .scroll-3 {
+      width: 40px;
+      height: 40px;
+      background: url('quest 3.png') no-repeat center;
+      background-size: contain;
+      position: absolute;
+    }
+
+    .scroll-4 {
+      width: 40px;
+      height: 40px;
+      background: url('quest 4.png') no-repeat center;
+      background-size: contain;
+      position: absolute;
+      
+    }
+
+    .scroll-2.pulsing {
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.2);
+      }
+    }
+
+    .mouse {
+      width: 100px;
+      height: 100px;
+      background: url('lado.png') no-repeat center;
+      background-size: contain;
+      position: absolute;
+      bottom: 140px;
+      left: 81%;
+      transform: translateX(-50%);
+    }
+    .mouse-trap {
+      width: 90px;
+      height: 90px;
+      background: url('mouse trap.png') no-repeat center;
+      background-size: contain;
+      position: absolute;
+    }
+
+    .cheese {
+        width: 50px;
+      height: 50px;
+      background: url('cheese cube.png') no-repeat center;
+      background-size: contain;
+      position: absolute;
+    }
+
+    .progress-bar {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      height: 10px;
+      background-color: #ccc;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      width: 10%; /* Adjust this percentage to change the fill level */
+      height: 100%;
+      background-color: #FFD700;
+      transition: width 0.3s ease;
+    }
+
+    .rat-on-top-bar {
+      position: absolute;
+      top: -5px;
+      left: 55px;
+      width: 40px;
+      height: 40px;
+      background: url('lado.png') no-repeat center;
+      background-size: contain;
+    }
+
+  </style>
+</head>
+<body>
+  <iframe src="audio.html" style="display: none;" id="audio-iframe"></iframe>
+
+  <div class="maze">
+    <div class="rat-on-top-bar"></div>
+    <div class="progress-bar">
+        <div class="progress-bar-fill">
+        </div>
+      </div>
+    <div class="scroll-2" style="bottom: 215px; left: 400px;"></div>
+    <div class="scroll-2 pulsing" style="bottom: 215px; left: 400px;"onclick="Quest2()"></div>
+    <div class="scroll-3" style="bottom: 275px; left: 160px;"></div>
+    <div class="scroll-4" style="bottom: 155px; left: 97px;"></div>
+    <div class="mouse-trap" style="bottom: 380px; left: 195px;"></div>
+    <div class="cheese" style="bottom: 450px; left: 150px;"></div>
+    <div class="mouse"></div>
+    <div class="Quest2" onclick="navigateToNextPage()">
+        
+  </div>
+
+  <script>
+    function Quest2() {
+        window.location.href = "5.1.html";
+    }
+    // Example: Adding interactivity to move the mouse around
+    document.addEventListener('keydown', (event) => {
+      const mouse = document.querySelector('.mouse');
+      const maze = document.querySelector('.maze');
+
+      let mouseRect = mouse.getBoundingClientRect();
+      let mazeRect = maze.getBoundingClientRect();
+
+      const step = 10;
+      switch (event.key) {
+        case 'ArrowUp':
+          if (mouseRect.top > mazeRect.top) mouse.style.top = `${mouse.offsetTop - step}px`;
+          break;
+        case 'ArrowDown':
+          if (mouseRect.bottom < mazeRect.bottom) mouse.style.top = `${mouse.offsetTop + step}px`;
+          break;
+        case 'ArrowLeft':
+          if (mouseRect.left > mazeRect.left) mouse.style.left = `${mouse.offsetLeft - step}px`;
+          break;
+        case 'ArrowRight':
+          if (mouseRect.right < mazeRect.right) mouse.style.left = `${mouse.offsetLeft + step}px`;
+          break;
+      }
+    });
+  </script>
+</body>
+</html>

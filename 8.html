@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Scroll</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #87CEEB;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .quest-title {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .scroll {
+      width: 1410px;
+      height: 600px;
+      background: url('scroll opened.png') no-repeat center;
+      background-size: contain;
+      transform: rotate(90deg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .text {
+      width: 30%;
+      text-align: center;
+      transform: rotate(-90deg);
+      font-family: "Crimson Text", sans-serif;
+      font-size: 18px;
+      color: #545454;
+      line-height: 1.5;
+    }
+
+    .highlight.color-1 { color: red; font-weight: bold; }
+    .highlight.color-2 { color: blue; font-weight: bold; }
+    .highlight.color-3 { color: green; font-weight: bold; }
+    .highlight.color-4 { color: orange; font-weight: bold; }
+    .highlight.color-5 { color: purple; font-weight: bold; }
+
+    .arrow {
+      position: absolute;
+      bottom: 20px; /* Adjust distance from the bottom */
+      right: 20px; /* Adjust distance from the right */
+      width: 60px; /* Adjust size */
+      height: 40px;
+      background: url('next icon.png') no-repeat center;
+      background-size: contain;
+      height: auto; /* Maintain aspect ratio */
+      cursor: pointer;
+      animation: pulse 3s infinite; /* Bounce animation */
+    }
+    
+    @keyframes pulse {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .arrow:hover {
+      transform: scale(1.2); /* Scale up slightly when hovered */
+      transition: transform 0.3s ease;
+    }
+
+  </style>
+</head>
+<body>
+
+    <div class="quest-title fade-in">Quest 3</div>
+    <div class="scroll">
+      <div class="text">
+        <p id="animated-text"></p>
+      </div>
+    </div>
+    <img src="next icon.png" alt="Next" class="arrow" onclick="goToNextPage()">
+  <div class="quest-title">Quest 3</div>
+    </div>
+  </div>
+
+  <script>
+    window.onload = () => {
+      const textContainer = document.getElementById("animated-text");
+
+      const textContent1 = [
+        "How does GenAI work?",
+        "With the prompts given by users, GenAI analyzes and identifies patterns within existing data",
+        "and quickly recreates new content.",
+        "So what makes a good prompt?"
+      ];
+      const textContent2 = [
+        "Clear, direct, concise!",
+        "Include Persona, Context, Audience, Task, Format."
+      ];
+      const textContent3 = [
+        "Example of a good prompt:",
+        "I'm a mom looking to create a healthy weekly meal plan for my picky 5-year-old daughter.",
+        "Generate a plan with breakfast, lunch, dinner, and snack options for each day presented in a bulleted list."
+      ];
+
+      const highlightWords = {
+        "Persona": "color-1",
+        "mom": "color-1",
+        "Context": "color-2",
+        "create a healthy weekly meal plan": "color-2",
+        "Audience": "color-3",
+        "picky 5-year-old daughter": "color-3",
+        "Task": "color-4",
+        "Generate a plan with breakfast, lunch, dinner, and snack options": "color-4",
+        "Format": "color-5",
+        "bulleted list": "color-5"
+      };
+
+      const animateText = (textContent, callback) => {
+        textContainer.innerHTML = ""; // Clear previous content
+        let totalDelay = 0;
+        textContent.forEach((line, index) => {
+          setTimeout(() => {
+            const highlightedLine = line.replace(
+              new RegExp(
+                Object.keys(highlightWords)
+                  .map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")) // Escape special regex characters
+                  .join("|"),
+                "gi"
+              ),
+              (matched) => `<span class="highlight ${highlightWords[matched.trim()]}">${matched}</span>`
+            );
+            textContainer.innerHTML += `<p>${highlightedLine}</p>`;
+            if (index === textContent.length - 1 && callback) callback();
+          }, totalDelay);
+          totalDelay += line.split(" ").length * 300 + 1000;
+        });
+      };
+
+      // Sequential Animation
+      animateText(textContent1, () => {
+        setTimeout(() => {
+          animateText(textContent2, () => {
+            setTimeout(() => {
+              animateText(textContent3, null);
+            }, 1000);
+          });
+        }, 1000);
+      });
+    };
+    function goToNextPage() {
+      window.location.href = "9.html"; // Replace with your desired next page URL
+    }
+  </script>
+</body>
+</html>

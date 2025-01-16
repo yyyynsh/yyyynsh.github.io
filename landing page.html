@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Race to the Great Cheese Victory</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Jersey+15&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Tiny5&family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #87CEEB;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .container {
+            position: relative;
+            width: 1024px;
+            height: 576px;
+        }
+
+        .cheese {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px; /* Increase size for better alignment */
+            transition: transform 2s ease;
+        }
+
+        .rat-maze {
+            position: absolute;
+            cursor: pointer;
+            bottom: 0%;
+            left: 10%;
+            animation: float 3s ease-in-out infinite;
+            background: 'img src= "rat on maze.png"' center center/cover; /* Replace with your maze image */
+            transition: transform 1s ease, opacity 1s ease;
+            cursor: pointer;
+        }
+        .rat-maze img {
+            width: 400px; /* Adjust size for better alignment */
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .title {
+            position: absolute;
+            top: 30%;
+            left: 48%;
+            transform: translate(-50%, -50%) rotate(-10deg);
+            font-family: "Crimson Text", serif;
+            font-size: 55px; /* Increase font size */
+            font-weight: bolder;
+            color: white;
+            text-shadow: 5px 5px #000;
+            animation: pulse 2s infinite;
+            line-height: 0.3; /* Adjust for stacked text */
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1) rotate(-10deg);
+            }
+            50% {
+                transform: scale(1.2) rotate(-10deg);
+            }
+        }
+
+        .lado-text {
+            position: absolute;
+            bottom: 63%;
+            left: 8%;
+            transform: translate(20%, 20%) rotate(-1deg);
+            font-family: "Crimson Text", serif;
+            font-size: 20px; /* Slightly larger text */
+            color: brown;
+            text-align: center;
+            animation: fadeInOut 5s ease-in-out infinite;
+            line-height: 0;
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+            10%, 90% {
+                opacity: 1;
+            }
+    
+    }
+    </style>
+</head>
+<body>
+    <iframe src="audio.html" style="display: none;" id="audio-iframe">
+    </iframe>
+    <div class="container">
+        <img src="cheese cube.png" alt="Cheese" class="cheese">
+        <div class="title">
+            <p>Race to the Great</p>
+            <p>Cheese Victory</p>
+        </div>
+        <div class="rat-maze" onclick="navigateToNextPage()">
+            <img src="rat on maze.png" alt="Rat on Maze">
+        </div>
+        <div class="lado-text">
+            <p>Hi! I'm Lado, the Rat!</p>
+            <p>And I loveee CHEESE!</p>
+        </div>
+        
+    </div>
+
+    <script>
+     function navigateToNextPage() {
+            window.location.href = "1.html"; // Replace with your desired URL or file path
+        }
+    </script>
+</body>
+</html>

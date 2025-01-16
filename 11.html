@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Scroll</title>
+  <style>
+    body {
+        font-family: "Crimson Text", sans-serif;
+      text-align: center;
+      background-color: #87CEEB;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .quest-title {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+    }
+
+    .scroll {
+      width: 1410px;
+      height: 600px;
+      background: url('scroll opened.png') no-repeat center;
+      background-size: contain;
+      transform: rotate(90deg);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 50px;
+      box-sizing: border-box;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .text {
+      width: 30%;
+      text-align: center;
+      transform: rotate(-90deg);
+      font-family: "Crimson Text", sans-serif;
+      font-size: 18px;
+      color: #545454;
+      line-height: 1.5;
+    }
+
+    .arrow {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: auto;
+      background: url('next icon.png') no-repeat center;
+      background-size: contain;
+      cursor: pointer;
+      animation: pulse 3s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .arrow:hover {
+      transform: scale(1.2);
+      transition: transform 0.3s ease;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="quest-title">Quest 4</div>
+  <div class="scroll">
+    <div class="text">
+      <p id="animated-text"></p>
+    </div>
+  </div>
+  <img src="next icon.png" alt="Next" class="arrow" onclick="goToNextPage()">
+
+  <script>
+    window.onload = () => {
+      const textContainer = document.getElementById("animated-text");
+      const textContent1 = [
+        "While GenAI is helpful,as much as it is a software program,",
+        "it has its fair share of its implication and risks.",
+        "Ex: Miuse of information, mistakes and biasness in generated content",
+        "So it is very important to stay vigilant when making use of GenAI!"
+      ];
+
+      let totalDelay = 0; // Total delay for words
+      const wordDelay = 300; // Delay between words (ms)
+      const lineDelay = 1000; // Extra delay after each line
+
+      textContent1.forEach((line, lineIndex) => {
+        const words = line.split(" ");
+        words.forEach((word, wordIndex) => {
+          setTimeout(() => {
+            textContainer.innerHTML += word + " ";
+            if (wordIndex === words.length - 1) textContainer.innerHTML += "<br>"; // Add line break after each line
+          }, totalDelay + wordIndex * wordDelay);
+        });
+        totalDelay += words.length * wordDelay + lineDelay;
+      });
+    };
+
+    function goToNextPage() {
+      window.location.href = "12.html"; // Replace with your desired next page URL
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help Lado Win!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text&family=Jersey+15&family=Playwrite+GB+S:ital,wght@0,100..400;1,100..400&family=Tiny5&family=Titillium+Web:wght@200&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: url('maze semi top.png') no-repeat center center/cover; /* Replace with your maze image path */
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 1024px;
+            height: 576px;
+        }
+
+        .rat {
+            position: absolute;
+            bottom: -90px; /* Start off-screen */
+            right: 0%;
+            width:400px;
+            animation: slideUp 2s ease forwards;
+            z-index: 2;
+        }
+
+        @keyframes slideUp {
+            100% {
+                bottom: 10%;
+            }
+        }
+
+        .exclamation {
+            position: absolute;
+            top: 35%;
+            right: 18%;
+            font-size: 50px;
+            color: red;
+            font-weight: bold;
+            opacity: 0;
+            animation: fadeIn 2s ease 1s forwards; /* Delayed to sync with rat */
+        }
+
+        .speech-bubble {
+            position: absolute;
+            background: #fbe4a1;
+            color: #5a3823;
+            border-radius: 15px;
+            padding: 10px;
+            width: 200px;
+            font-family: "Crimson Text", sans-serif;
+            font-size: 14px;
+            box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+            opacity: 0;
+        }
+
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 25%;
+            font-family: "Crimson Text", serif;
+            border-width: 15px;
+            border-style: solid;
+            border-color: #fbe4a1 transparent transparent transparent;
+        }
+
+        .bubble1 {
+            top: 10%;
+            right: 25%;
+            animation: fadeIn 2s ease 1.5s forwards;
+        }
+
+        .bubble2 {
+            top: 25%;
+            right: 20%;
+            animation: fadeIn 2s ease 2s forwards;
+        }
+
+        .bubble3 {
+            bottom: 35%;
+            left: 10%;
+            animation: fadeInOut 3s ease-in-out 1s infinite;
+        }
+
+        @keyframes fadeIn {
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInOut {
+            0%, 100% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .grey-rats {
+            position: absolute;
+            bottom: 20%;
+            left: 5%;
+            display: flex;
+            gap: 10px;
+        }
+
+        .grey-rats img {
+            width: 80px;
+            transform: scaleX(-1);
+        }
+
+        .button {
+            position: absolute;
+            bottom: 10%;
+            left: 32%;
+            background: #00bfff;
+            color: white;
+            font-family: "Crimson Text", sans-serif;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .button:hover {
+            background: #008cba;
+        }
+    </style>
+</head>
+<body>
+    <iframe src="audio.html" style="display: none;" id="audio-iframe"></iframe>
+
+    <div class="container">
+        <!-- White Rat -->
+        <img src="lado.png" alt="Lado the Rat" class="rat"> <!-- Replace with your white rat image -->
+
+        <!-- Exclamation Mark -->
+        <div class="exclamation">!</div>
+
+        <!-- Speech Bubbles -->
+        <div class="speech-bubble bubble1">
+            Oh no! They're coming for the same cheese!
+        </div>
+        <div class="speech-bubble bubble2">
+            Help me along this maze to get to the cheese before those grey ones do!
+        </div>
+
+        <!-- Grey Rats -->
+        <div class="grey-rats">
+            <img src="grey rat.png" alt="Grey Rat 1"> <!-- Replace with your grey rat image -->
+            <img src="grey rat.png" alt="Grey Rat 2">
+            <img src="grey rat.png" alt="Grey Rat 3">
+        </div>
+
+        <!-- Text Above Grey Rats -->
+        <div class="speech-bubble bubble3">
+            Sniff, hm we smell some cheese...
+        </div>
+
+        <!-- Button -->
+        <button class="button" onclick="helpLado()">Press here to help Lado win this race!</button>
+    </div>
+
+    <script>
+        function helpLado() {
+            alert("Lado is counting on you! Guide him to victory!");
+            // Redirect to the next webpage
+            window.location.href = "2.html"; // Replace with the URL of the next webpage
+        }
+    </script>
+</body>
+</html>

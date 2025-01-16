@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Animated Scroll Quiz</title>
+  <style>
+    body {
+        font-family: "Crimson Text", sans-serif;
+      text-align: center;
+      background-color: #87CEEB;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .quest-title {
+        font-family: "Crimson Text", sans-serif;
+        font-size: 24px;
+      font-weight: bold;
+      color: white;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+      margin-bottom: 20px;
+    }
+
+    #quiz-container {
+      width: 660px;
+      max-width: 100%;
+      height: auto;
+      background: #fff;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+      text-align: center;
+      overflow: hidden; /* Ensures content fits within the box */
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .question {
+      margin-bottom: 20px;
+      font-size: 1.2em;
+    }
+
+    .options button {
+      display: block;
+      margin: 10px auto;
+      padding: 10px 20px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 1em;
+      cursor: pointer;
+      border: none;
+      border-radius: 5px;
+      background: #f0f0f0;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .options button.correct {
+      background-color: #ffc927;
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .options button.incorrect {
+      background-color: #f44336;
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    #score {
+      font-size: 1.5em;
+      margin-top: 20px;
+    }
+
+    #cheese-container {
+      display: none;
+      position: absolute;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 100;
+    }
+
+    #cheese {
+      width: 100px;
+      height: 100px;
+      background-image: url('cheese cube.png'); /* Replace with your cheese image URL */
+      background-size: cover;
+      border-radius: 15%;
+      animation: zoomIn 3s ease-in-out forwards;
+    }
+
+    #cheese-text {
+        font-family: "Crimson Text", sans-serif;
+        font-size: 2em;
+      color: #ffcc00;
+      font-weight: bold;
+      margin-top: 10px;
+      animation: fadeIn 2s ease-in-out forwards;
+    }
+
+    @keyframes zoomIn {
+      0% {
+        transform: translateX(-50%) scale(0.1);
+      }
+      100% {
+        transform: translateX(-50%) scale(1);
+      }
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    #try-again-btn {
+      background-color: #f0a500;
+      color: white;
+      padding: 10px 20px;
+      font-family: "Crimson Text", sans-serif;
+      font-size: 1.2em;
+      cursor: pointer;
+      border-radius: 5px;
+      margin-top: 20px;
+    }
+
+    .arrow {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      width: 60px;
+      height: auto;
+      background: url('next icon.png') no-repeat center;
+      background-size: contain;
+      cursor: pointer;
+      animation: pulse 3s infinite;
+      display: none; /* Initially hide arrow */
+    }
+
+    @keyframes pulse {
+      0%, 20%, 50%, 80%, 100% {
+        transform: translateY(0);
+      }
+      40% {
+        transform: translateY(-10px);
+      }
+      60% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .arrow:hover {
+      transform: scale(1.2);
+      transition: transform 0.3s ease;
+    }
+
+  </style>
+</head>
+<body>
+    <iframe src="audio.html" style="display: none;" id="audio-iframe"></iframe>
+
+    <div class="quest-title">Quiz</div>
+    <div id="quiz-container">
+        <div id="quiz">
+        <p id="question-number">Question 1/5</p>
+        <p class="question"></p>
+        <div class="options"></div>
+        <div id="comment"></div>
+        </div>
+        <div id="score" style="display: none;"></div>
+    </div>
+
+    <img src="next icon.png" alt="Next" class="arrow" onclick="goToNextPage()">
+
+    <div id="cheese-container">
+      <div id="cheese"></div>
+      <div id="cheese-text">The Cheese Is Yours!</div>
+    </div>
+
+    <script>
+      const questions = [
+        {
+          question: "AI and GenAI are the same thing.",
+          options: ["True", "False"],
+          answer: 2, // False
+          comment: "GenAI is a subset of AI, not the same thing!"
+        },
+        {
+          question: "GenAI can create new content.",
+          options: ["True", "False"],
+          answer: 1, // True
+          comment: "Yes, GenAI is capable of creating new content such as text, images, and music."
+        },
+        {
+          question: "Is GenAI used in chatbots?",
+          options: ["Yes", "No"],
+          answer: 1, // Yes
+          comment: "Yes, GenAI powers many modern chatbots by generating responses."
+        },
+        {
+          question: "GenAI can only generate text.",
+          options: ["True", "False"],
+          answer: 2, // False
+          comment: "No, GenAI can also generate images, videos, and even music."
+        },
+        {
+          question: "GenAI requires a lot of data to train.",
+          options: ["True", "False"],
+          answer: 1, // True
+          comment: "Yes, GenAI requires large datasets to learn patterns and generate content effectively."
+        }
+      ];
+
+      let currentQuestion = 0;
+      let score = 0;
+
+      function showQuestion() {
+        const question = questions[currentQuestion];
+        document.querySelector('.question').textContent = question.question;
+        const optionsContainer = document.querySelector('.options');
+        optionsContainer.innerHTML = '';
+        question.options.forEach((option, index) => {
+          const button = document.createElement('button');
+          button.textContent = option;
+          button.onclick = () => checkAnswer(index + 1, button);
+          optionsContainer.appendChild(button);
+        });
+        document.getElementById('question-number').textContent = `Question ${currentQuestion + 1}/5`;
+      }
+
+      function checkAnswer(selectedAnswer, button) {
+        const question = questions[currentQuestion];
+        if (selectedAnswer === question.answer) {
+          score++;
+          button.classList.add('correct');
+        } else {
+          button.classList.add('incorrect');
+          const correctButton = document.querySelectorAll('.options button')[question.answer - 1];
+          correctButton.classList.add('correct');
+        }
+
+        document.getElementById('comment').textContent = question.comment;
+
+        setTimeout(() => {
+          currentQuestion++;
+          if (currentQuestion < questions.length) {
+            showQuestion();
+          } else {
+            showResults();
+          }
+        }, 1500);
+      }
+
+      function showResults() {
+        document.getElementById('quiz-container').style.display = 'none';
+        const scoreContainer = document.getElementById('score');
+        scoreContainer.style.display = 'block';
+        scoreContainer.innerHTML = `Your score: ${score}/5`;
+
+        if (score >= 4) {
+          showCheeseAnimation();
+        } else {
+          document.getElementById('score').innerHTML += `<h1>Try Again!</h1>`;
+          showTryAgainButton();
+        }
+      }
+
+      function showCheeseAnimation() {
+        document.getElementById('cheese-container').style.display = 'block';
+        document.querySelector('.arrow').style.display = 'block'; // Show arrow after the quiz ends
+      }
+
+      function showTryAgainButton() {
+        const tryAgainBtn = document.createElement('button');
+        tryAgainBtn.textContent = 'Try Again';
+        tryAgainBtn.id = 'try-again-btn';
+        tryAgainBtn.onclick = () => location.reload();
+        document.body.appendChild(tryAgainBtn);
+      }
+
+      showQuestion();
+
+      function goToNextPage() {
+      window.location.href = "15.html"; // Replace with your desired next page URL
+    }
+    </script>
+</body>
+</html>
